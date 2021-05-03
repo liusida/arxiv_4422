@@ -2,7 +2,7 @@
 # This is for running experiments on the cloud
 set -x
 expName="CPUvsGPU"
-if [$1 == 'cpu']
+if [ $1 == 'cpu' ]
 then
     for seed in {1..100}
     do
@@ -10,7 +10,7 @@ then
     done
 fi
 
-if [$1 == 'gpu']
+if [ $1 == 'gpu' ]
 then
     for seed in {1..100}
     do
