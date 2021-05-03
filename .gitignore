@@ -4,6 +4,7 @@ data/arxiv_4422.pickle
 data/arxiv_4422/*
 tmp/*
 wandb/*
+keys/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
