@@ -1,8 +1,7 @@
 import math
 import numpy as np
-from numba import prange, njit
+from numba import njit
 from numba import cuda
-from numba.cuda.random import create_xoroshiro128p_states, xoroshiro128p_uniform_float32
 
 """
 Loss = sum_i(sum_j(A[i,j] * abs(i-j)/(m^2)))
@@ -27,6 +26,23 @@ def loss_cpu(elements):
                 ret += (i-j) * _l_1 * elements[i, j]  # here because j<i, we can safely ommit abs() for speed.
     return ret
 
+@njit
+def loss_gradient_if_swap(elements, target_i, target_j):
+    """ 
+    This file directly optimize this loss function.
+    only calculate i and j-th row and col
+    @return at the scale: Loss * l
+    """
+    ret = 0  # loss gained by swapping
+    l = elements.shape[0]
+
+    for m, m_inv in [[target_i, target_j], [target_j, target_i]]:
+        for n in range(l):
+            if elements[m, n] > 0 or elements[m_inv, n] > 0:
+                if m != n and m_inv != n:
+                    ret += (abs(m-n)-abs(m_inv-n)) * (elements[m, n] - elements[m_inv, n])
+    return ret
+
 @cuda.jit
 def _loss_gpu(matrix, ret):
     x, y = cuda.grid(2)
@@ -45,3 +61,21 @@ def loss_gpu(matrix):
     blockspergrid = (blockspergrid_x, blockspergrid_y)
     _loss_gpu[blockspergrid, threadsperblock](matrix, ret)
     return ret[0]
+
+
+@njit
+def swap_inplace(elements, indices, i, j):
+    """ swap the matrix and indices inplace at position i and j """
+    _tmp = elements[i, :].copy()
+    elements[i, :] = elements[j, :]
+    elements[j, :] = _tmp
+
+    _tmp = elements[:, i].copy()
+    elements[:, i] = elements[:, j]
+    elements[:, j] = _tmp
+
+    # also swap indices to keep track of the direct way from original matrix to final matrix.
+    if indices is not None:
+        _tmp = indices[i]
+        indices[i] = indices[j]
+        indices[j] = _tmp

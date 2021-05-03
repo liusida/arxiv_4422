@@ -4,49 +4,68 @@
 
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 
-df = pd.read_pickle("data/arxiv_4422.pickle")
-matrix = np.zeros([df.shape[0], df.shape[0]])
+def step2():
+    df = pd.read_pickle("data/arxiv_4422.pickle")
+    matrix = np.zeros([df.shape[0], df.shape[0]])
 
-df_last_author = pd.unique(df['last_author'])
-df_first_author = pd.unique(df['first_author'])
-df_authors = np.concatenate([ df_first_author,  df_last_author])
-df_authors = pd.unique(df_authors)
-print(df_authors.shape[0])
-
-def activate_matrix(matrix, df_authors, df):
-    """
-    First consideration: main author relationship = 10
-    Then consider: main other author relationship = 5
-    Last consider: other author relationship = 2
-    """
-    for author in df_authors:
-        df_main_author = df[(df['last_author']==author) | (df['first_author']==author)]
-        df_other_author = df[df['other_authors'].str.find(f":{author}:")!=-1]
-
-        for i in df_other_author.index:
-            for j in df_other_author.index:
-                if matrix[i,j]<2:
-                    matrix[i,j] = 2
-                    matrix[j,i] = 2
-
-        for i in df_main_author.index:
-            for j in df_other_author.index:
-                if matrix[i,j]<5:
-                    matrix[i,j] = 5
-                    matrix[j,i] = 5
-
-        for i in df_main_author.index:
-            for j in df_main_author.index:
-                matrix[i,j] = 10
-                matrix[j,i] = 10
-
-    return matrix
-
-matrix = activate_matrix(matrix, df_authors, df)
-
-for i in range(matrix.shape[0]):
-    assert(matrix[i,i]==10)
+    df_last_author = pd.unique(df['last_author'])
+    df_first_author = pd.unique(df['first_author'])
     
-np.save("shared/author_similarity_matrix.npy", matrix)
+    main_authors = np.concatenate([ df_first_author,  df_last_author])
+    print(f"main author examples: {main_authors[:10]}")
+
+    other_authors = {}
+    for index, row in df.iterrows():
+        _l = row['other_authors'].split(":|:")
+        for _a in _l:
+            if _a=="":
+                continue
+            other_authors[_a] = 1
+    other_authors = list(other_authors.keys())
+    print(f"other author examples: {other_authors[:10]}")
+    ar_authors = np.concatenate([main_authors, other_authors])
+
+    ar_authors = pd.unique(ar_authors)
+    print(f"There are {ar_authors.shape[0]} unique authors.")
+
+    def activate_matrix(matrix, ar_authors, df):
+        """
+        First consideration: main author relationship = 1.0
+        Then consider: main other author relationship = 0.5
+        Last consider: other author relationship = 0.3
+        """
+        for author in ar_authors:
+            df_main_author = df[(df['last_author']==author) | (df['first_author']==author)]
+            df_other_author = df[df['other_authors'].str.find(f":{author}:")!=-1]
+
+            for i in df_other_author.index:
+                for j in df_other_author.index:
+                    if matrix[i,j]<0.3:
+                        matrix[i,j] = 0.3
+                        matrix[j,i] = 0.3
+
+            for i in df_main_author.index:
+                for j in df_other_author.index:
+                    if matrix[i,j]<0.5:
+                        matrix[i,j] = 0.5
+                        matrix[j,i] = 0.5
+
+            for i in df_main_author.index:
+                for j in df_main_author.index:
+                    matrix[i,j] = 1
+                    matrix[j,i] = 1
+
+        return matrix
+
+    print("Processing...")
+    matrix = activate_matrix(matrix, ar_authors, df)
+
+    for i in range(matrix.shape[0]):
+        assert(matrix[i,i]==1)
+        
+    np.save("data/matrix.npy", matrix)
+    print("done")
+    
+if __name__=="__main__":
+    step2()

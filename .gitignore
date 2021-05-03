@@ -1,6 +1,8 @@
 .vscode
 data/arxiv_4422.pickle
 data/arxiv_4422/*
+tmp/*
+wandb/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

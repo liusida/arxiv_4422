@@ -63,7 +63,7 @@ def step1():
                         author = f"{record_dict['authors']['author'][i]['forenames']} {record_dict['authors']['author'][i]['keyname']}"
                     else:
                         author = f"{record_dict['authors']['author'][i]['keyname']}"
-                    other_authors.append(f":{author}:")
+                    other_authors.append(f"{author}")
                 
         else:
             first_author = last_author = f"{record_dict['authors']['author']['forenames']} {record_dict['authors']['author']['keyname']}"
@@ -78,6 +78,8 @@ def step1():
         with open(g_filename, "r") as f:
             g_info = f.read()
         g_citations = int(g_info)
+        
+        # If names from arxiv and semantic scholar are different, show a warning.
         if not compare_two_names(first_author, s2_info['authors'][0]['name']):
             print(f"Warning: Name difference, {first_author} v.s. {s2_info['authors'][0]['name']}, refer to https://arxiv.org/abs/{arxiv_id}")
 
@@ -90,7 +92,7 @@ def step1():
             "g": g_citations,
             "first_author": first_author,
             "last_author": last_author,
-            "other_authors": "|".join(other_authors),
+            "other_authors": ":|:".join(other_authors),
         }
         df = df.append(record, ignore_index=True)
 
