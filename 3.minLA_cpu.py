@@ -14,7 +14,7 @@ from tools.core import loss_cpu, loss_gradient_if_swap
 from tools.images import save_pic
 import wandb
 
-def search(matrix, indices, seed=0, total_steps=100, num_save=20):
+def search(matrix, indices, seed=0, total_steps=100, num_save=10):
     l = matrix.shape[0]
     np.random.seed(seed)
     for step in range(total_steps):
@@ -73,7 +73,7 @@ if __name__=="__main__":
     wandb.init(project="arxiv_4422")
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("-n", "--num_steps", type=float, default=1e6, help="")
+    parser.add_argument("-n", "--num_steps", type=float, default=5e5, help="")
     parser.add_argument("--seed", type=int, default=0, help="random seed")
     parser.add_argument("--tag", type=str, default="cpu")
     args = parser.parse_args()

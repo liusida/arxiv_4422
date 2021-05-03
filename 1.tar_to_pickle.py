@@ -10,13 +10,9 @@ import tarfile
 import shutil
 from tools.names import compare_two_names
 
-
-def abbr(name):
-    n = name.split(' ')
-    return f"{n[0][0]}. {n[-1]}"
-
 def step1():
     if not os.path.exists("data/arxiv_4422"):
+        print("Extracting...")
         tar = tarfile.open("data/arxiv_4422.tar.gz", "r:gz")
         # extract
         tar.extractall("data")
