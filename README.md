@@ -16,3 +16,7 @@ push high values to the diagonal line
 ## Step 4.
 Matrix Reordering using GPU
 push high values to the diagonal line
+
+## Step 5.
+Visualization.
+The final results can be viewed at: [http://star-lab.ai/arxiv/](http://star-lab.ai/arxiv/)
