@@ -101,6 +101,7 @@ if __name__=="__main__":
     parser.add_argument("-n", "--num_steps", type=float, default=200, help="")
     parser.add_argument("--seed", type=int, default=0, help="random seed")
     parser.add_argument("--tag", type=str, default="gpu")
+    parser.add_argument("--exp_name", type=str)
     args = parser.parse_args()
     args.num_steps = int(args.num_steps)
     wandb.config.update(args)
