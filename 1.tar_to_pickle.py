@@ -2,12 +2,9 @@
 # Extract the tar.gz file into temporary folder and get some useful information from it.
 # Save useful information into a pandas DataFrame pickle file.
 
-import glob, re, os
-import json
+import glob, re, os, tarfile, shutil, json
 import xmltodict
 import pandas as pd
-import tarfile
-import shutil
 from tools.names import compare_two_names
 
 def step1():

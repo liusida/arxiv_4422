@@ -3,6 +3,7 @@ import cv2
 import wandb
 
 def save_pic(matrix, indices, title=""):
+    """ save an image and the indices, upload to wandb """
     im = np.array(matrix / matrix.max() * 255, dtype = np.uint8)
     im = 255-im
 

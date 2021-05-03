@@ -45,6 +45,7 @@ def loss_gradient_if_swap(elements, target_i, target_j):
 
 @cuda.jit
 def _loss_gpu(matrix, ret):
+    """ CUDA kernel function for loss_gpu() """
     x, y = cuda.grid(2)
     if x<matrix.shape[0] and y<matrix.shape[1]: # Important: Don't use early return in CUDA functions, will cause Memory Error. Use cuda-memcheck to check memory.
         if y<x: # only compute half of the matrix
