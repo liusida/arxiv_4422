@@ -62,7 +62,6 @@ def loss_gpu(matrix):
     _loss_gpu[blockspergrid, threadsperblock](matrix, ret)
     return ret[0]
 
-
 @njit
 def swap_inplace(elements, indices, i, j):
     """ swap the matrix and indices inplace at position i and j """
