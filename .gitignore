@@ -1,3 +1,5 @@
+.vscode
+data/arxiv_4422.pickle
 data/arxiv_4422/*
 
 # Byte-compiled / optimized / DLL files
