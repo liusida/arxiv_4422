@@ -1,4 +1,5 @@
 .vscode
+data/matrix.npy
 data/arxiv_4422.pickle
 data/arxiv_4422/*
 tmp/*
