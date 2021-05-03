@@ -1,4 +1,5 @@
 #!/bin/sh
+# This is for running experiments on the cloud
 set -x
 expName="CPUvsGPU"
 if [$1 -eq 'cpu'] then
