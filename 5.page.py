@@ -37,7 +37,10 @@ def step5():
             <p>Cited by {row['s2']} or {row['g']}</p>
             """
             tooltip = tooltip.replace('\'', '`')
-            print(f"<div class='paper' index='{index}' arxiv_id='{row['arxiv_id']}' tooltip='{tooltip}'>{row['title']} ({authors}, {int(row['year_arxiv'])})</div>", file=f)
+            print(f"""<div class='paper' index='{index}' arxiv_id='{row['arxiv_id']}' tooltip='{tooltip}'>
+            {index+1}. <a name='paper_{index+1}'>
+            {row['title']} ({authors}, {int(row['year_arxiv'])})
+            </div>""", file=f)
 
     # reorder the matrix
     matrix = matrix[indices,:]

@@ -126,7 +126,7 @@ $bgscale = 8.485;
         <p class="title">Exploring Highly Cited arXiv Deep Learning Papers</p>
         <p>This list shows 4,422 highly cited arXiv papers in two subcategories: cs.LG and cs.AI retrived in April, 2021.</p>
         <p>The order of the list is arranged so that papers with stronger relationships are placed closer to each other.</p>
-        <p>Here is a preview of the entire matrix. The most famous authors are usually in the middle of the list.</p>
+        <p>Here is a preview of the entire matrix. The most famous authors are usually in <a href="#paper_2080">the middle of the list</a>.</p>
         <div class="img"><a href="bg.png" target="_blank"><img src="bg.png" width="400" height="400"></a></div>
         <p>For more information, please refer to: <a href="https://github.com/liusida/arxiv_4422">https://github.com/liusida/arxiv_4422</a>
         <p>Please zoom out to see the whole picture and zoom in to see the individual papers.</p>
