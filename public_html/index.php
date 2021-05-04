@@ -129,6 +129,7 @@ $bgscale = 8.485;
         <p>Here is a preview of the entire matrix. The most famous authors are usually in the middle of the list.</p>
         <div class="img"><a href="bg.png" target="_blank"><img src="bg.png" width="400" height="400"></a></div>
         <p>For more information, please refer to: <a href="https://github.com/liusida/arxiv_4422">https://github.com/liusida/arxiv_4422</a>
+        <p>Please zoom out to see the whole picture and zoom in to see the individual papers.</p>
         <p>The detailed list starts here:</p>
     </div>
     <div id="main">
