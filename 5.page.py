@@ -20,7 +20,7 @@ def step5():
             all_authors = authors = row['first_author']
             if row['other_authors']!="":
                 authors += ", ..."
-                all_authors += ", " + ", ".join(row['other_authors'].split(":|:"))[1:-1]
+                all_authors += ", " + ", ".join(row['other_authors'].split(":|:"))
             if row['first_author']!=row['last_author']:
                 authors += ", "+row['last_author']
                 all_authors += ", "+row['last_author']
