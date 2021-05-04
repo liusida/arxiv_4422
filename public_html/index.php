@@ -90,7 +90,7 @@ $bgscale = 8.485;
                     let _top = parseInt(parseFloat(d3.select(this).attr('index') * 12));
                     return _top + "px";
                 })
-                .on("mousemove", function(d) {
+                .on("mousemove touchmove", function(d) {
                     let _arxiv_id = d3.select(this).attr("arxiv_id");
                     let _tooltip = d3.select(this).attr("tooltip");
                     let _top = parseInt(parseFloat(d3.select(this).attr('index') * 12));
