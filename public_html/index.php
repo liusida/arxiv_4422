@@ -36,7 +36,7 @@ $bgscale = 8.485;
             height: <?php echo 4422 * $bgscale ?>px;
             width: <?php echo 4422 * $bgscale ?>px;
             background-image: url('bg.png');
-            background-size: <?php echo 4422 * $bgscale ?>px;
+            background-size: <?php echo 4422 * $bgscale ?>px <?php echo 4422 * $bgscale ?>px;
             transform-origin: top left;
             transform: rotate(45deg);
             z-index: -1;
