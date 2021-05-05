@@ -1,35 +1,19 @@
 <!DOCTYPE html>
 <html>
-<?php
-$bgscale = 8.485;
-?>
 
 <head>
     <meta charset='utf-8'>
     <title>Deep Learning</title>
     <script src="https://d3js.org/d3.v6.min.js"></script>
-    <script src="detect-zoom.js"></script>
+    <script src="js/detect-zoom.js"></script>
+    <script src="js/reordering.js"></script>
+    <script src='js/d3.layout.cloud.js'></script>
+    <script src="js/world_cloud.js"></script>
+    <link rel="stylesheet" href="css/main.css">
     <style>
-        #intro {
-            font-size: 20px;
-        }
-        #intro .title {
-            font-weight: bold;
-        }
-        #intro .img {
-            padding-left: 100px;
-        }
-        #intro .img img {
-            border: 1px solid black;
-        }
-        #main {
-            /* border: 1px solid red; */
-            position: relative;
-            overflow: hidden;
-            height: 53300px;
-        }
-
-        #bg {
+        <?php
+        $bgscale = 8.485;
+        ?>#bg {
             position: absolute;
             top: 6px;
             left: 5px;
@@ -41,84 +25,7 @@ $bgscale = 8.485;
             transform: rotate(45deg);
             z-index: -1;
         }
-
-        #list {
-            padding-top: 20px;
-            padding-left: 0px;
-            margin-left: 500px;
-            position: relative;
-        }
-
-        #list div {
-            position: absolute;
-            top: 0px;
-            left: 0px;
-            margin-left: 0px;
-            padding-left: 0px;
-            line-height: 13px;
-            font-size: 8px;
-            white-space: nowrap;
-            background-color: white;
-            cursor: pointer;
-        }
-
-        #arxiv_tooltip {
-            border: 1px solid black;
-            background-color: white;
-            position: absolute;
-            top: -1000px;
-            left: -1000px;
-            width: 500px;
-            /* height: 200px; */
-            padding: 20px;
-        }
-
-        #arrow {
-            color: red;
-            font-size: 20px;
-            position: absolute;
-            top: -1000px;
-            left: 0px;
-        }
-
     </style>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function(event) {
-            // return;
-            d3.selectAll(".paper").style("top", function() {
-                    let _top = parseInt(parseFloat(d3.select(this).attr('index') * 12));
-                    return _top + "px";
-                })
-                .on("mousemove touchmove", function(d) {
-                    let _arxiv_id = d3.select(this).attr("arxiv_id");
-                    let _tooltip = d3.select(this).attr("tooltip");
-                    let _top = parseInt(parseFloat(d3.select(this).attr('index') * 12));
-
-                    d3.select("#arxiv_tooltip")
-                        .style("font-size", parseInt(20 / detectZoom.zoom())+"px")
-                        .style("width", parseInt(500 / detectZoom.zoom())+"px")
-                        .style("top", (_top+20) + "px")
-                        .style("left", d.pageX + "px")
-                        .html(_tooltip);
-                    
-                    d3.select("#arrow")
-                        .style("top", _top + "px");
-
-                })
-                .on("mouseout", function(){
-                    d3.select("#arxiv_tooltip")
-                        .style("top", "-1000px")
-                })
-                .on("click", function(d) {
-                    let _arxiv_id = d3.select(this).attr("arxiv_id");
-                    window.open("https://arxiv.org/abs/"+_arxiv_id, "_blank");
-                });
-
-
-        });
-    </script>
-
 </head>
 
 <body>
@@ -141,6 +48,14 @@ $bgscale = 8.485;
         <div id="arxiv_tooltip"></div>
         <div id="arrow">➞</div>
     </div>
+    <div id="word-cloud-word-list">
+        <?php include("word_cloud.html") ?>
+    </div>
+    <div id="explain-word-cloud">
+        <p>You can also click the words bellow to highlight the papers which contains the word.</p>
+        <p>This is helpful when everything is small.</p>
+    </div>
+    <div id="word-cloud"></div>
 </body>
 
 </html>
