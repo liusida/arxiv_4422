@@ -1,12 +1,23 @@
 document.addEventListener("DOMContentLoaded", function(event) {
     "use strict";
 
+    Array.prototype.remove = function() {
+        var what, a = arguments, L = a.length, ax;
+        while (L && this.length) {
+            what = a[--L];
+            while ((ax = this.indexOf(what)) !== -1) {
+                this.splice(ax, 1);
+            }
+        }
+        return this;
+    };
+
+    var highlighted_words = [];
     var words = d3.select("#word-cloud-word-list")
                     .text()
                     .split("\n")
                     .map(function(s) { return s.trim(); })
                     .filter(function(s) { return s.indexOf(":::") > 0; });
-    console.log(words);
 
     var layout = d3.layout.cloud()
                      .size([ 2000, 1000 ])
@@ -56,18 +67,39 @@ document.addEventListener("DOMContentLoaded", function(event) {
         d3.selectAll("text").style("fill", function() { return '#999999'; });
 
         d3.selectAll("g text").on("click", function() {
-            d3.selectAll("text").style("fill", function() { return '#999999'; });
-            d3.select(this).style("fill", function() { return '#FF6341'; });
+            const current_word = d3.select(this).text();
+            if (highlighted_words.includes(current_word)) {
+                highlighted_words.remove(current_word);
+            } else {
+                highlighted_words.push(current_word);
+            }
 
-            const w = d3.select(this).text();
+            d3.selectAll("text").style("fill", function() { 
+                for (const w of highlighted_words) {
+                    if (w==d3.select(this).text()) {
+                        return '#FF6341';
+                    }
+                }
+                return '#999999'; 
+            });
+            const logic = d3.select('input[name="word-cloud-logic"]:checked').node().value;
             d3.selectAll("div.paper").style('background-color', function() {
-                if (d3.select(this).text().indexOf(w) != -1) {
-                    return '#FFC0B2';
-                } else {
+                if (logic=='or') {
+                    for (const w of highlighted_words) {
+                        if (d3.select(this).text().indexOf(w) != -1) {
+                            return '#FFC0B2';
+                        }
+                    }
                     return '';
+                } else {
+                    for (const w of highlighted_words) {
+                        if (d3.select(this).text().indexOf(w) == -1) {
+                            return '';
+                        }
+                    }
+                    return '#FFC0B2';
                 }
             });
-            console.log(w);
         });
     }
 });

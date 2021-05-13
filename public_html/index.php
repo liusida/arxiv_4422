@@ -54,6 +54,10 @@
     <div id="explain-word-cloud">
         <p>You can also click the words bellow to highlight the papers which contains the word.</p>
         <p>This is helpful when everything is small.</p>
+        <p>You can choose multiple words with logic: <br>
+            <input type="radio" name="word-cloud-logic" value="or" checked> OR<br>
+            <input type="radio" name="word-cloud-logic" value="and"> AND<br>
+        </p>
     </div>
     <div id="word-cloud"></div>
 </body>
